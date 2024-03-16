@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ShopApp.Business.Abstract;
+using ShopApp.WebUI.Models;
 
 namespace ShopApp.WebUI.Controllers
 {
@@ -14,7 +15,10 @@ namespace ShopApp.WebUI.Controllers
         }
         public IActionResult Index()
         {
-            return View(_productService.GetAll());
+            return View(new ProductListModel()
+            {
+                Products = _productService.GetPopularProducts()
+            }); ;
         }
     }
 }
