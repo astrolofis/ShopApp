@@ -3,6 +3,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ShopApp.Business.Abstract;
+using ShopApp.Business.Concrete;
+using ShopApp.DataAccess.Abstract;
+using ShopApp.DataAccess.Concrete.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +26,15 @@ namespace ShopApp.WebUI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IProductDal, MemoryProductDal>();
+            services.AddScoped<IProductService, ProductManager>();
+
+            services.AddMvc()
+                .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
+            services.AddMvc(options =>
+            {
+                options.EnableEndpointRouting = false;
+            });
             services.AddRazorPages();
         }
 
@@ -36,6 +49,8 @@ namespace ShopApp.WebUI
             {
                 app.UseExceptionHandler("/Error");
             }
+
+            app.UseMvcWithDefaultRoute();
 
             app.UseStaticFiles();
 
