@@ -8,6 +8,8 @@ namespace ShopApp.Business.Abstract
     {
         Product GetById(int id);
 
+        Product GetByIdWithCategories(int id);
+
         Product GetProductDetails(int id);
 
         List<Product> GetAll();
@@ -21,5 +23,7 @@ namespace ShopApp.Business.Abstract
         void Delete(Product entity);
 
         int GetCountByCategory(string category);
+
+        void Update(Product entity, int[] categoryIds);
     }
 }
