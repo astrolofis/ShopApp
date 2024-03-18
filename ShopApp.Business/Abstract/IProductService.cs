@@ -4,7 +4,7 @@ using System.Dynamic;
 
 namespace ShopApp.Business.Abstract
 {
-    public interface IProductService
+    public interface IProductService:IValidator<Product>
     {
         Product GetById(int id);
 
@@ -16,7 +16,7 @@ namespace ShopApp.Business.Abstract
 
         List<Product> GetProductsByCategory(string category, int page, int pageSize);
 
-        void Create(Product entity);
+        bool Create(Product entity);
 
         void Update(Product entity);
 
