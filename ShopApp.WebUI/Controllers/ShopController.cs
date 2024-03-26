@@ -35,7 +35,7 @@ namespace ShopApp.WebUI.Controllers
 
         public IActionResult List(string category, int page =1)
         {
-            const int pageSize = 3;
+            const int pageSize = 6;
             return View(new ProductListModel()
             {
                 PageInfo = new PageInfo()

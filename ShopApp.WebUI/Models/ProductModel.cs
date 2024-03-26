@@ -16,7 +16,7 @@ namespace ShopApp.WebUI.Models
         public string ImageUrl { get; set; }
 
         [Required]
-        [StringLength(200, MinimumLength = 10, ErrorMessage = "Ürün açıklaması minimum 10 karakter maksimum 200 karakter olmalıdır")]
+        [StringLength(20000, MinimumLength = 10, ErrorMessage = "Ürün açıklaması minimum 10 karakter maksimum 200 karakter olmalıdır")]
         public string Description { get; set; }
 
         [Required(ErrorMessage ="Fiyat belirtiniz")]
