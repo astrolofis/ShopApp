@@ -69,14 +69,20 @@ namespace ShopApp.WebUI
                 options.Cookie = new CookieBuilder
                 {
                     HttpOnly = true,
-                    Name = ".Shop.Security.Cookie"
+                    Name = ".Shop.Security.Cookie",
+                    //SameSite=SameSiteMode.Strict
                 };
             });
 
             services.AddScoped<IProductDal, EfCoreProductDal>();
             services.AddScoped<ICategoryDal, EfCoreCategoryDal>();
+            services.AddScoped<ICartDal, EfCoreCartDal>();
+            services.AddScoped<IOrderDal, EfCoreOrderDal>();
+
             services.AddScoped<IProductService, ProductManager>();
             services.AddScoped<ICategoryService, CategoryManager>();
+            services.AddScoped<ICartService, CartManager>();
+            services.AddScoped<IOrderService, OrderManager>();
 
             services.AddMvc()
                 .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
@@ -88,7 +94,7 @@ namespace ShopApp.WebUI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             if (env.IsDevelopment())
             {
@@ -121,6 +127,24 @@ namespace ShopApp.WebUI
                 );
 
                 routes.MapRoute(
+                    name: "cart",
+                    template: "cart",
+                    defaults: new { controller = "Cart", action = "Index" }
+                );
+
+                routes.MapRoute(
+                    name: "orders",
+                    template: "orders",
+                    defaults: new { controller = "Cart", action = "GetOrders" }
+                );
+
+                routes.MapRoute(
+                   name: "checkout",
+                   template: "checkout",
+                   defaults: new { controller = "Cart", action = "Checkout" }
+               );
+
+                routes.MapRoute(
                     name: "products",
                     template: "products/{category?}",
                     defaults:new {controller ="Shop", action="List"}
@@ -130,8 +154,7 @@ namespace ShopApp.WebUI
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}"
                     );
-            });
-
+            });            
             
 
             app.UseRouting();
@@ -142,6 +165,9 @@ namespace ShopApp.WebUI
             {
                 endpoints.MapRazorPages();
             });
+
+            SeedIdentity.Seed(userManager, roleManager, Configuration).Wait();
+
         }
     }
 }

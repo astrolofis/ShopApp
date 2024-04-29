@@ -1,8 +1,10 @@
 ﻿using ShopApp.Entities;
+using System.Collections.Generic;
 
 namespace ShopApp.DataAccess.Abstract
 {
-    internal interface IOrderDal: IRepository<Order>
+    public interface IOrderDal : IRepository<Order>
     {
+        List<Order> GetOrders(string userId);
     }
 }

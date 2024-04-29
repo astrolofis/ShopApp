@@ -1,20 +1,25 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using ShopApp.Business.Abstract;
 using ShopApp.WebUI.Identity;
 using ShopApp.WebUI.Models;
 using System.Threading.Tasks;
 
 namespace ShopApp.WebUI.Controllers
 {
+    //[AutoValidateAntiforgeryToken]
     public class AccountController : Controller
     {
         private UserManager<ApplicationUser> _userManager;
         private SignInManager<ApplicationUser> _signInManager;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        private ICartService _cartService;
+
+        public AccountController(ICartService cartService, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _cartService = cartService;
         }
 
 
@@ -41,7 +46,8 @@ namespace ShopApp.WebUI.Controllers
 
             if(result.Succeeded)
             {
-                return RedirectToAction("account", "login");
+                _cartService.InitializeCart(user.Id);
+                return RedirectToAction("login", "account");
             }
 
 
@@ -90,6 +96,11 @@ namespace ShopApp.WebUI.Controllers
         {
             await _signInManager.SignOutAsync();
             return Redirect("~/");
+        }
+
+        public IActionResult Accessdenied()
+        {
+            return View();
         }
     }
 }
