@@ -27,7 +27,7 @@ namespace ShopApp.WebUI.EmailServices
 
             
             var bodyBuilder = new BodyBuilder();
-            bodyBuilder.TextBody= htmlMessage;
+            bodyBuilder.HtmlBody= htmlMessage;
             mimeMessage.Body=bodyBuilder.ToMessageBody();
 
             mimeMessage.Subject = subject;

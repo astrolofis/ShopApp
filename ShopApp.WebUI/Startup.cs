@@ -76,11 +76,13 @@ namespace ShopApp.WebUI
             services.AddScoped<ICategoryDal, EfCoreCategoryDal>();
             services.AddScoped<ICartDal, EfCoreCartDal>();
             services.AddScoped<IOrderDal, EfCoreOrderDal>();
+            services.AddScoped<ICommentDal, EfCoreCommentDal>();
 
             services.AddScoped<IProductService, ProductManager>();
             services.AddScoped<ICategoryService, CategoryManager>();
             services.AddScoped<ICartService, CartManager>();
             services.AddScoped<IOrderService, OrderManager>();
+            services.AddScoped<ICommentService, CommentManager>();
 
             services.AddTransient<IEmailSender, EmailSender>();
 
@@ -118,13 +120,25 @@ namespace ShopApp.WebUI
                  name: "adminProduct",
                  template: "admin/products",
                  defaults: new { controller = "Admin", action = "ProductList" }
-               );
+               );                
 
                 routes.MapRoute(
                     name: "adminProducts",
                     template: "admin/products/{id?}",
                     defaults: new { controller = "Admin", action = "EditProduct" }
                 );
+
+                routes.MapRoute(
+                 name: "userComment",
+                 template: "comments",
+                 defaults: new { controller = "comment", action = "Index" }
+               );
+
+                routes.MapRoute(
+                 name: "userComments",
+                 template: "comments/{id?}",
+                 defaults: new { controller = "comment", action = "EditComment" }
+               );
 
                 routes.MapRoute(
                     name: "cart",

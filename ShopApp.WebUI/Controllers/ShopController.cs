@@ -2,6 +2,7 @@
 using ShopApp.Business.Abstract;
 using ShopApp.Entities;
 using ShopApp.WebUI.Models;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ShopApp.WebUI.Controllers
@@ -9,10 +10,12 @@ namespace ShopApp.WebUI.Controllers
     public class ShopController : Controller
     {
         private IProductService _productService;
+        private ICommentService _commentService;
 
-        public ShopController(IProductService productService)
+        public ShopController(IProductService productService, ICommentService commentService)
         {
             _productService = productService;
+            _commentService = commentService;
         }
 
         public IActionResult Details(int? id)
@@ -21,6 +24,7 @@ namespace ShopApp.WebUI.Controllers
             {
                 return NotFound();
             }
+            List<Comment> comment = _commentService.GetCommentByProductId((int)id);
             Product product = _productService.GetProductDetails((int)id);
             if(product == null)
             {
@@ -29,7 +33,8 @@ namespace ShopApp.WebUI.Controllers
             return View(new ProductDetailsModel()
             {
                 Product=product,
-                Categories=product.ProductCategories.Select(i=> i.Category).ToList()
+                Categories=product.ProductCategories.Select(i=> i.Category).ToList(),
+                Comments = comment
             });
         }
 

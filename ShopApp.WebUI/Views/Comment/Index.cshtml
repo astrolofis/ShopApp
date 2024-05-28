@@ -1,0 +1,44 @@
+﻿@model CommentListModel
+
+@if (Model.Comments.Count() > 0)
+{
+    <table class="table table-bordered">
+        <thead></thead>
+        <tr>
+            <td style="width:30px">Id</td>
+            <td style="width:30px">Tarih</td>
+            <td >Yorum</td>
+            <td style="width:12px">Derecelendirme</td>
+            <td style="width:150px">İşlem</td>
+        </tr>
+        <tbody>
+            @foreach (var comment in Model.Comments)
+            {
+                <tr>
+                    <td>@comment.Id</td>                    
+                    <td>@comment.CommentDate</td>
+                    <td>@comment.CommentBody</td>
+                    <td><i class="fas fa-star"/> @comment.Rating</td>
+                    <td>
+                        <a class="btn btn-primary btn-sm mr-2" href="/comments/@comment.Id">Düzenle</a>
+
+                        <form action="/comment/deletecomment" method="post" vstyle="display:inline">
+                            <input type="hidden" name="commentId" value="@comment.Id" />
+                            <button type="submit" class="btn btn-danger btn-sm">Sil</button>
+                        </form>
+
+
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+}
+else
+{
+    <div class="alert alert-warning">
+        <h4>Yorum Bulunamadı</h4>
+    </div>
+}

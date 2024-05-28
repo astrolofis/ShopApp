@@ -26,5 +26,7 @@ namespace ShopApp.DataAccess.Concrete.EfCore
         public DbSet<Cart> Carts { get; set; }
 
         public DbSet<Order> Orders{ get; set; }
+
+        public DbSet<Comment> Comments { get; set; }
     }
 }

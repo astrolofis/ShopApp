@@ -17,6 +17,9 @@
                 <li class="nav-item">
                     <a asp-controller="Cart" asp-action="GetOrders" class="nav-link">Siparişler</a>
                 </li>
+                <li class="nav-item">
+                    <a asp-controller="Comment" asp-action="Index" class="nav-link">Yorumlar</a>
+                </li>
 
                 @if (User.IsInRole("admin"))
                 {

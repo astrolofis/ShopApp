@@ -79,11 +79,9 @@ namespace ShopApp.Business.Concrete
 
             if (string.IsNullOrEmpty(entity.Name))
             {
-                ErrorMesssage += "Ürün ismi giriniz.";
+                ErrorMesssage += "Yorumunuzu Yazınız.";
                 isValid = false;
             }
-
-
             return isValid;
         }
     }

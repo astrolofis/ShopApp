@@ -1,0 +1,35 @@
+﻿@model CommentModel
+
+<h1> Yorum Düzenleme</h1>
+
+<form asp-controller="Comment" asp-action="EditComment" methot="post" enctype="multipart/form-data">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="row">
+        <div class="col-md-8">
+            <input type="hidden" name="Id" value="@Model.Id"/>
+            <input type="hidden" name="ProductId" value="@Model.ProductId" />   
+                <div class="form-group row">
+                <label asp-for="CommentBody" class="col-md-2 col-form-label">Yorum</label>
+                    <div class="col-md-10">
+                    <textarea name="CommentBody" class="form-control">@Model.CommentBody</textarea>
+                    </div>
+                </div>
+            <div class="form-group row">
+                <label asp-for=Rating class="col-md-2 col-form-label">Derecelendirme</label>
+                <div class="col-md-10">
+                    <input type="number" name="Rating" value="@Model.Rating" class="form-control" min="1" max="5" step="1" style="width:100px;" />
+                </div>
+
+            </div>
+                
+            <div class="form-group row">
+                    <div class="col-md-10 offset-md-2">
+                        <button type="submit" class="btn-btn-primary">Yorumu Kaydet</button>
+                    </div>
+            </div>
+
+            
+
+        </div>
+    </div>
+</form> 

@@ -12,8 +12,15 @@
         @foreach(var category in Model.Categories)
         {
             <a href="#" class="btn btn-link p-0 mb-3">@category.Name</a>
-        }
+        }        
         
+        <p><i class="fas fa-star"></i>
+            @if (@Model.Comments.Count > 0)
+            {
+                @Model.AvgRating()
+            }            
+            </p> 
+
         <div class=" mb-3">
             <h4 class="text-primary mb-3">
                 @Model.Product.Price TL
@@ -29,7 +36,8 @@
                         </button>
                     </div>
                 </div>
-               </form>
+               </form>      
+            
 
         </div>
     </div>
@@ -41,3 +49,98 @@
         </p>
     </div>
 </div>
+
+<hr />
+
+@if (@Model.Comments.Count > 0 )
+{
+            @foreach (var comments in Model.Comments)
+            {                                  
+                
+                    <div class="container my-2 py-2">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-md-12 col-lg-10 col-xl-8">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex flex-start align-items-center">
+                                            
+                                            <div>
+                                                <h6 class="fw-bold text-primary mb-1">@comments.UserName</h6>
+                                                <p class="text-muted small mb-0">
+                                                    @comments.CommentDate
+                                                </p>
+                                            </div>
+                                            <p><i class="fas fa-star"></i>@comments.Rating</p>
+                                        </div>
+
+                                        <p class="mt-3 mb-4 pb-2">
+                                            @comments.CommentBody
+                                        </p>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+            }
+}
+@if(@Model.Comments.Count == 0)
+{
+    <div class="alert alert-warning">
+        <h4>Henüz bu ürüne yorum yapılmamış</h4>
+    </div>
+    
+}
+
+
+@if (User.Identity.IsAuthenticated)
+{            
+    <hr />
+    <div class="row">
+        <div class="col-md-8">
+            @if (ViewBag.ErrorMessage != null)
+            {
+                <div class="text-danger">@ViewBag.ErrorMessage</div>
+            }
+
+            <form asp-controller="Comment" asp-action="AddingComment" methot="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <input type="hidden" name="productId" value="@Model.Product.Id" />
+                <div class="form-group row">
+                    <label asp-for="Comment.CommentBody" class="col-md-2 col-form-label">Yorum</label>
+                    <div class="col-md-10">
+                        <textarea type="text" name="comment" class="form-control"></textarea>
+                        <span asp-validation-for="Comment.CommentBody" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group row col-md-8">
+                        <label asp-for="Comment.Rating" class="col-md-4 col-form-label">Derecelendirme</label>
+                        <div class="col-md-8">
+                            <input type="number" name="rating" class="form-control" value="1" min="1" max="5" step="1" style="width:100px;" />
+                            <span asp-validation-for="Comment.Rating" class="text-danger"></span>
+                        </div>                  
+                    </div>
+                    <div class="form-group row col-md-4">
+                        <div class="col-md-10 offset-md-2">
+                            <button type="submit" value="" class="btn btn-primary">
+                                Yorum Yap
+                                <i class="fas fa-long-arrow-alt-right ms-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+}
+
+@if (!User.Identity.IsAuthenticated)
+{
+    <a asp-controller="Account" asp-action="Login" class="nav-link">Yorum yapmak için giriş yapınız.</a>
+}
+
