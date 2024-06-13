@@ -13,12 +13,30 @@ namespace ShopApp.WebUI.Controllers
         {
             _productService = productService;
         }
+
         public IActionResult Index()
         {
             return View(new ProductListModel()
             {
                 Products = _productService.GetAll()
             }); 
+        }        
+
+
+        [HttpPost]
+        public IActionResult Index(string name)
+        {
+            if (ModelState.IsValid)
+            {
+                return View(new ProductListModel()
+                {
+                    Products = _productService.GetByName(name),
+                    ProductName = name
+                });
+            }
+            return View();
+
+
         }
     }
 }

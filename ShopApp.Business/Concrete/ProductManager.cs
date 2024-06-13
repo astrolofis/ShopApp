@@ -84,5 +84,10 @@ namespace ShopApp.Business.Concrete
             }
             return isValid;
         }
+
+        public List<Product> GetByName(string name)
+        {
+            return _productDal.GetByName(name);
+        }
     }
 }

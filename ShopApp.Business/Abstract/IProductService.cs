@@ -25,5 +25,7 @@ namespace ShopApp.Business.Abstract
         int GetCountByCategory(string category);
 
         void Update(Product entity, int[] categoryIds);
+        
+        List<Product> GetByName(string name);
     }
 }

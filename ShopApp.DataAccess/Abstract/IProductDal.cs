@@ -17,5 +17,7 @@ namespace ShopApp.DataAccess.Abstract
         Product GetByIdWithCategories(int id);
 
         void Update(Product entity, int[] categoryIds);
+        
+        List<Product> GetByName(string name);
     }
 }

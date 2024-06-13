@@ -26,6 +26,7 @@ namespace ShopApp.WebUI.Models
 
         public List<Product> Products{ get; set; }
 
+        public string ProductName { get; set; }
 
     }
 }
